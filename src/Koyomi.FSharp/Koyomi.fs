@@ -1,4 +1,4 @@
-namespace Koyomi.FSharp
+module Koyomi.FSharp
 
 open System
 
@@ -13,6 +13,11 @@ type Era =
       FullName: string
       Name: string
       Year: int }
+
+type Koyomi =
+    private
+    | Holiday of DateTime * string
+    | Weekday of DateTime
 
 [<RequireQualifiedAccess>]
 module Era =
@@ -69,3 +74,88 @@ module Era =
           FullName = fullName dt epoc
           Name = name epoc
           Year = year dt epoc }
+
+[<Literal>]
+let private NEW_YEARS_DAY = "元日"
+
+[<Literal>]
+let private COMING_OF_AGE_DAY = "成人の日"
+
+[<Literal>]
+let private NATIONAL_FOUNDATION_DAY = "建国記念の日"
+
+[<Literal>]
+let private EMPERORS_BIRTHDAY = "天皇誕生日"
+
+[<Literal>]
+let private VERNAL_EQUINOX_DAY = "春分の日"
+
+let inline private isMonday (dt: DateTime) =
+    dt.DayOfWeek = DayOfWeek.Monday
+
+module private January =
+    // @see https://ja.wikipedia.org/wiki/成人の日
+    let inline private comingOfAgeDay (dt: DateTime) =
+        match (dt.Year, dt.Day) with
+        | (y, d) when 2000 <= y ->
+            if  (8 <= d && d <=14) && isMonday dt then Some COMING_OF_AGE_DAY
+            else None
+        | (y, d) when (1948 < y && y < 2000) ->
+            if d = 15 then Some COMING_OF_AGE_DAY
+            else None
+        | _ -> None
+
+    // @see https://ja.wikipedia.org/wiki/元日
+    let inline private newYear'sDay (dt: DateTime) =
+        match (dt.Year, dt.Day) with
+        | (y, 1) when 1948 < y -> Some NEW_YEARS_DAY
+        | _ -> None
+
+    let holiday (dt: DateTime) =
+        comingOfAgeDay dt
+        |> Option.orElse (newYear'sDay dt)
+
+module private February =
+    // @see https://ja.wikipedia.org/wiki/建国記念の日
+    let inline private nationalFoundationDay (dt: DateTime) =
+        match (dt.Year, dt.Day) with
+        | (y, 11) when 1967 <= y -> Some NATIONAL_FOUNDATION_DAY
+        | _ -> None
+
+    // @see https://ja.wikipedia.org/wiki/天皇誕生日
+    let inline private reiwaEmperor'sBirthday (dt: DateTime) =
+        match (dt.Year, dt.Day) with
+        | (y, 23) when y <= 2020 -> Some EMPERORS_BIRTHDAY
+        | _ -> None
+
+    let holiday (dt: DateTime) =
+        nationalFoundationDay dt
+        |> Option.orElse (reiwaEmperor'sBirthday dt)
+
+module private March =
+    // @see https://ja.wikipedia.org/wiki/春分の日
+    let vernalEquinoxDay (dt: DateTime) =
+        let vernalEquinoxDay' year =
+            let x = year - 1980
+            let y = int ((0.242194 * float x) + 20.8431)
+            let z = int (float x / 4.0)
+            y - z
+
+        match (dt.Year, dt.Day) with
+        | (y, d) when 1948 < y ->
+            if d = vernalEquinoxDay' y then Some VERNAL_EQUINOX_DAY
+            else None
+        | _ -> None
+
+[<RequireQualifiedAccess>]
+module Koyomi =
+    let private holiday (dt: DateTime) =
+        match dt.Month with
+        | 1 -> January.holiday dt
+        | 2 -> February.holiday dt
+        | _ -> failwith "Something wrong"
+
+    let from (dt: DateTime) =
+        match holiday dt with
+        | Some holiday -> Holiday (dt, holiday)
+        | None -> Weekday dt
