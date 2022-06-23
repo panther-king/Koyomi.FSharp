@@ -16,8 +16,8 @@ type Era =
 
 type Koyomi =
     private
-    | Holiday of DateTime * string
-    | Weekday of DateTime
+    | Holiday of DateTime * Era * string
+    | Weekday of DateTime * Era
 
 [<RequireQualifiedAccess>]
 module Era =
@@ -64,7 +64,7 @@ module Era =
         let name' = name ep
         $"{name'}{epocYear}年"
 
-    let era (dt: DateTime) =
+    let from (dt: DateTime) =
         let epoc =
             if within reiwa dt then Reiwa
             else if within heisei dt then Heisei
@@ -149,13 +149,22 @@ module private March =
 
 [<RequireQualifiedAccess>]
 module Koyomi =
-    let private holiday (dt: DateTime) =
-        match dt.Month with
-        | 1 -> January.holiday dt
-        | 2 -> February.holiday dt
-        | _ -> failwith "Something wrong"
-
     let from (dt: DateTime) =
-        match holiday dt with
-        | Some holiday -> Holiday (dt, holiday)
-        | None -> Weekday dt
+        let holiday =
+            match dt.Month with
+            | 1 -> January.holiday dt
+            | 2 -> February.holiday dt
+            | _ -> failwith "Something wrong"
+        match holiday with
+        | Some holiday -> Holiday (dt, Era.from dt, holiday)
+        | None -> Weekday (dt, Era.from dt)
+
+    let holiday (k: Koyomi) =
+        match k with
+        | Holiday (_, _, h) -> Some h
+        | _ -> None
+
+    let isHoliday (k: Koyomi)  =
+        match k with
+        | Holiday _ -> true
+        | Weekday _ -> false

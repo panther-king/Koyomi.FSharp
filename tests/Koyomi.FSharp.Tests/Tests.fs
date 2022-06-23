@@ -1,4 +1,4 @@
-module Koyomi.FSharp.Tests
+namespace Koyomi.FSharp.Tests
 
 open System
 
@@ -11,7 +11,7 @@ module EraTests =
     [<Fact>]
     let ``昭和は1926/12/25から始まる`` () =
         DateTime (1926, 12, 25)
-        |> Era.era
+        |> Era.from
         |> should equal
             { Epoc = Showa
               FullName = "昭和元年"
@@ -21,7 +21,7 @@ module EraTests =
     [<Fact>]
     let ``昭和は1989/01/07に64年で終わる`` () =
         DateTime (1989, 1, 7)
-        |> Era.era
+        |> Era.from
         |> should equal
             { Epoc = Showa
               FullName = "昭和64年"
@@ -31,7 +31,7 @@ module EraTests =
     [<Fact>]
     let ``平成は1989/01/08から始まる`` () =
         DateTime (1989, 1, 8)
-        |> Era.era
+        |> Era.from
         |> should equal
             { Epoc = Heisei
               FullName = "平成元年"
@@ -41,7 +41,7 @@ module EraTests =
     [<Fact>]
     let ``平成は2019/04/30に31年で終わる`` () =
         DateTime (2019, 4, 30)
-        |> Era.era
+        |> Era.from
         |> should equal
             { Epoc = Heisei
               FullName = "平成31年"
@@ -51,7 +51,7 @@ module EraTests =
     [<Fact>]
     let ``令和は2019/05/01から始まる`` () =
         DateTime (2019, 5, 1)
-        |> Era.era
+        |> Era.from
         |> should equal
             { Epoc = Reiwa
               FullName = "令和元年"
