@@ -98,10 +98,12 @@ module private January =
     let inline private comingOfAgeDay (dt: DateTime) =
         match (dt.Year, dt.Day) with
         | (y, d) when 2000 <= y ->
-            if  (8 <= d && d <=14) && isMonday dt then Some COMING_OF_AGE_DAY
+            if  (8 <= d && d <= 14) && isMonday dt
+            then Some COMING_OF_AGE_DAY
             else None
         | (y, d) when (1948 < y && y < 2000) ->
-            if d = 15 then Some COMING_OF_AGE_DAY
+            if d = 15
+            then Some COMING_OF_AGE_DAY
             else None
         | _ -> None
 
@@ -143,7 +145,8 @@ module private March =
 
         match (dt.Year, dt.Day) with
         | (y, d) when 1948 < y ->
-            if d = vernalEquinoxDay' y then Some VERNAL_EQUINOX_DAY
+            if d = vernalEquinoxDay' y
+            then Some VERNAL_EQUINOX_DAY
             else None
         | _ -> None
 
