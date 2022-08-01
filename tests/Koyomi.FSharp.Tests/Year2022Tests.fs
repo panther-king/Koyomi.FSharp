@@ -74,7 +74,7 @@ module Year2022Tests =
             [| DateTime(2022, 2, 20); None |]
             [| DateTime(2022, 2, 21); None |]
             [| DateTime(2022, 2, 22); None |]
-            [| DateTime(2022, 2, 23); None |]
+            [| DateTime(2022, 2, 23); Some "天皇誕生日" |]
             [| DateTime(2022, 2, 24); None |]
             [| DateTime(2022, 2, 25); None |]
             [| DateTime(2022, 2, 26); None |]
