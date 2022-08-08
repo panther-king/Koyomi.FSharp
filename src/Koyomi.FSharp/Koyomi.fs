@@ -1,4 +1,4 @@
-namespace Koyomi.FSharp
+module Koyomi.FSharp
 
 open System
 
@@ -75,6 +75,19 @@ module Era =
           Name = name epoc
           Year = year dt epoc }
 
+type private HappyMonday =
+    | Second
+    | Third
+
+let private happyMonday (w: HappyMonday) (dt: DateTime) =
+    match dt.DayOfWeek with
+    | DayOfWeek.Monday ->
+        match (w, dt.Day) with
+        | (Second, d) when 8 <= d && d <= 14 -> true
+        | (Third, d) when 15 <= d && d <= 21 -> true
+        | _ -> false
+    | _ -> false
+
 // @see https://ja.wikipedia.org/wiki/元日
 [<AutoOpen>]
 module NewYearsDay =
@@ -114,11 +127,8 @@ module ComingOfAgeDay =
         | _ -> None
 
     let private (|HappyMonday|_|) (dt: DateTime) =
-        match (dt.Month, dt.DayOfWeek) with
-        | (1, DayOfWeek.Monday) ->
-            match dt.Day with
-            | d when 8 <= d && d <= 14 -> Some()
-            | _ -> None
+        match dt.Month with
+        | 1 -> if happyMonday Second dt then Some() else None
         | _ -> None
 
     let comingOfAgeDay (dt: DateTime) =
@@ -194,6 +204,202 @@ module VernalEquinoxDay =
         | Established & VernalEquinoxDay -> Ok NAME
         | _ -> Error dt
 
+// @see https://ja.wikipedia.org/wiki/みどりの日
+[<AutoOpen>]
+module GreenDay =
+    [<Literal>]
+    let private NAME = "みどりの日"
+
+    let private (|Established|Amended|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1989 <= y && y <= 2006 -> Established
+        | y when 2007 <= y -> Amended
+        | _ -> Expired
+
+    let private (|BeforeAmended|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (4, 29) -> Some()
+        | _ -> None
+
+    let private (|AfterAmended|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (5, 4) -> Some()
+        | _ -> None
+
+    let greenDay (dt: DateTime) =
+        match dt with
+        | Established & BeforeAmended -> Ok NAME
+        | Amended & AfterAmended -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/昭和の日
+[<AutoOpen>]
+module ShowaDay =
+    [<Literal>]
+    let private NAME = "昭和の日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 2007 <= y -> Established
+        | _ -> Expired
+
+    let private (|ShowaDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (4, 29) -> Some()
+        | _ -> None
+
+    let showaDay (dt: DateTime) =
+        match dt with
+        | Established & ShowaDay -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/憲法記念日_(日本)
+[<AutoOpen>]
+module ConstitutionDay =
+    [<Literal>]
+    let private NAME = "憲法記念日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match (dt.Year) with
+        | y when 1948 <= y -> Established
+        | _ -> Expired
+
+    let private (|ConstitutionDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (5, 3) -> Some()
+        | _ -> None
+
+    let constitutionDay (dt: DateTime) =
+        match dt with
+        | Established & ConstitutionDay -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/こどもの日
+[<AutoOpen>]
+module ChildrensDay =
+    [<Literal>]
+    let private NAME = "こどもの日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match (dt.Year) with
+        | y when 1948 <= y -> Established
+        | _ -> Expired
+
+    let private (|ChildrensDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (5, 5) -> Some()
+        | _ -> None
+
+    let childrensDay (dt: DateTime) =
+        match dt with
+        | Established & ChildrensDay -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/こどもの日
+[<AutoOpen>]
+module MarineDay =
+    [<Literal>]
+    let private NAME = "海の日"
+
+    let private (|Established|Amended|Spot|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | 2020 -> Spot
+        | 2021 -> Spot
+        | y when 1996 <= y && y <= 2002 -> Established
+        | y when 2003 <= y -> Amended
+        | _ -> Expired
+
+    let private (|MarineDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (7, 20) -> Some()
+        | _ -> None
+
+    let private (|HappyMonday|_|) (dt: DateTime) =
+        match dt.Month with
+        | 7 -> if happyMonday Third dt then Some() else None
+        | _ -> None
+
+    let private (|BeforeOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (7, 23) -> Some()
+        | _ -> None
+
+    let private (|TokyoOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (7, 22) -> Some()
+        | _ -> None
+
+    let marineDay (dt: DateTime) =
+        match dt with
+        | Established & MarineDay -> Ok NAME
+        | Amended & HappyMonday -> Ok NAME
+        | Spot & BeforeOlympic -> Ok NAME
+        | Spot & TokyoOlympic -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/海の日
+[<AutoOpen>]
+module MountainDay =
+    [<Literal>]
+    let private NAME = "山の日"
+
+    let private (|Established|Spot|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | 2020 -> Spot
+        | 2021 -> Spot
+        | y when 2016 <= y -> Established
+        | _ -> Expired
+
+    let private (|MountainDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (8, 11) -> Some()
+        | _ -> None
+
+    let private (|BeforeOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (8, 10) -> Some()
+        | _ -> None
+
+    let private (|TokyoOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (8, 8) -> Some()
+        | _ -> None
+
+    let mountainDay (dt: DateTime) =
+        match dt with
+        | Established & MountainDay -> Ok NAME
+        | Spot & BeforeOlympic -> Ok NAME
+        | Spot & TokyoOlympic -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/敬老の日
+[<AutoOpen>]
+module RespectForTheAgedDay =
+    [<Literal>]
+    let private NAME = "敬老の日"
+
+    let private (|Established|Amended|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1966 <= y && y <= 2002 -> Established
+        | y when 2003 <= y -> Amended
+        | _ -> Expired
+
+    let private (|RespectForTheAgedDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (9, 15) -> Some()
+        | _ -> None
+
+    let private (|HappyMonday|_|) (dt: DateTime) =
+        match dt.Month with
+        | 9 -> if happyMonday Third dt then Some() else None
+        | _ -> None
+
+    let respectForTheAgedDay (dt: DateTime) =
+        match dt with
+        | Established & RespectForTheAgedDay -> Ok NAME
+        | Amended & HappyMonday -> Ok NAME
+        | _ -> Error dt
+
 [<RequireQualifiedAccess>]
 module Koyomi =
     let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
@@ -208,6 +414,14 @@ module Koyomi =
             >> either Ok nationalFoundationDay
             >> either Ok emperorsBirthday
             >> either Ok vernalEquinoxDay
+            >> either Ok greenDay
+            >> either Ok showaDay
+            >> either Ok constitutionDay
+            >> either Ok childrensDay
+            >> either Ok marineDay
+            >> either Ok mountainDay
+            >> either Ok respectForTheAgedDay
+
         match holiday dt with
         | Ok holiday -> Holiday (dt, Era.from dt, holiday)
         | Error _ -> Weekday (dt, Era.from dt)

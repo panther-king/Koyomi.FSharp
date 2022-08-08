@@ -21,7 +21,7 @@ module NewYearsDayTests =
         |> should be True
 
     [<Fact>]
-    let ``祝日法の施行以前は1月1日であっても祝日ではない`` () =
+    let ``祝日法の施行以前は、1月1日であっても元日の祝日ではない`` () =
         DateTime(1948, 1, 1)
         |> newYearsDay
         |> isOkWith "元日"
@@ -41,7 +41,7 @@ module ComingOfAgeDayTests =
         |> should be True
 
     [<Fact>]
-    let ``祝日法の施行以前は1月15日であっても祝日ではない`` () =
+    let ``祝日法の施行以前は、1月15日であっても成人の日の祝日ではない`` () =
         DateTime(1948, 1, 15)
         |> comingOfAgeDay
         |> isOkWith "成人の日"
@@ -96,7 +96,7 @@ module NationalFoundationDayTests =
         |> should be True
 
     [<Fact>]
-    let ``1967年より前は、2月15日であっても祝日ではない`` () =
+    let ``1967年より前は、2月15日であっても建国記念の日の祝日ではない`` () =
         DateTime(1966, 2, 15)
         |> nationalFoundationDay
         |> isOkWith "建国記念の日"
@@ -154,7 +154,7 @@ module EmperorsBirthdayTests =
         |> should be False
 
     [<Fact>]
-    let ``祝日法制定以前は、昭和天皇の誕生日であっても祝日ではない`` () =
+    let ``祝日法制定以前は、昭和天皇の誕生日であっても天皇誕生日の祝日ではない`` () =
         DateTime(1948, 4, 29)
         |> emperorsBirthday
         |> isOkWith "天皇誕生日"
@@ -248,8 +248,274 @@ module VernalEquinoxDayTests =
         |> should be True
 
     [<Fact>]
-    let ``祝日法の施行以前は春分日であっても祝日ではない`` () =
+    let ``祝日法の施行以前は、春分日であっても春分の日の祝日ではない`` () =
         DateTime(1948, 3, 21)
         |> vernalEquinoxDay
         |> isOkWith "春分の日"
+        |> should be False
+
+module GreenDayTests =
+    let between: obj[] seq =
+        seq { 1989 .. 2006}
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("between")>]
+    let ``1989年から2006年は、4月29日がみどりの日で祝日になる`` (y: int) =
+        DateTime(y, 4, 29)
+        |> greenDay
+        |> isOkWith "みどりの日"
+        |> should be True
+
+    let after: obj[] seq =
+        seq { 2007 .. DateTime.Now.Year}
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("after")>]
+    let ``2007年以降は、5月4日がみどりの日で祝日になる`` (y: int) =
+        DateTime(y, 5, 4)
+        |> greenDay
+        |> isOkWith "みどりの日"
+        |> should be True
+
+    [<Fact>]
+    let ``1988年以前の4月29日はみどりの日ではない`` () =
+        DateTime(1988, 4, 29)
+        |> greenDay
+        |> isOkWith "みどりの日"
+        |> should be False
+
+module ShowaDayTests =
+    let afterEstablished: obj[] seq =
+        seq { 2007 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterEstablished")>]
+    let ``2007年以降、4月29日は昭和の日で祝日になる`` (y: int) =
+        DateTime(2007, 4, 29)
+        |> showaDay
+        |> isOkWith "昭和の日"
+        |> should be True
+
+    [<Fact>]
+    let ``2006年以前の4月29日は昭和の日ではない`` () =
+        DateTime(2006, 4, 29)
+        |> showaDay
+        |> isOkWith "昭和の日"
+        |> should be False
+
+module ConstitutionDayTests =
+    let afterEstablished: obj[] seq =
+        seq { 1948 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterEstablished")>]
+    let ``祝日法の施行後、5月3日は憲法記念日で祝日になる`` (y: int) =
+        DateTime(y, 5, 3)
+        |> constitutionDay
+        |> isOkWith "憲法記念日"
+        |> should be True
+
+    [<Fact>]
+    let ``祝日法の施行以前は、5月3日であっても憲法記念日の祝日ではない`` () =
+        DateTime(1947, 5, 3)
+        |> constitutionDay
+        |> isOkWith "憲法記念日"
+        |> should be False
+
+module ChildrensDayTests =
+    let afterEstablished: obj[] seq =
+        seq { 1948 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterEstablished")>]
+    let ``祝日法の施行後、5月5日はこどもの日で祝日になる`` (y: int) =
+        DateTime(y, 5, 5)
+        |> childrensDay
+        |> isOkWith "こどもの日"
+        |> should be True
+
+    [<Fact>]
+    let ``祝日法の施行以前は、5月5日であってもこどもの日の祝日ではない`` () =
+        DateTime(1947, 5, 5)
+        |> childrensDay
+        |> isOkWith "こどもの日"
+        |> should be False
+
+module MarineDayTests =
+    let betweenEstablished: obj[] seq =
+        seq { 1996 .. 2002 }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("betweenEstablished")>]
+    let ``1996年から2002年は、7月20日が海の日で祝日になる`` (y: int) =
+        DateTime(y, 7, 20)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be True
+
+    let betweenAmended: obj[] list =
+        [
+            [| 2003; 7; 21 |]
+            [| 2004; 7; 19 |]
+            [| 2005; 7; 18 |]
+            [| 2006; 7; 17 |]
+            [| 2007; 7; 16 |]
+            [| 2008; 7; 21 |]
+            [| 2009; 7; 20 |]
+            [| 2010; 7; 19 |]
+            [| 2011; 7; 18 |]
+            [| 2012; 7; 16 |]
+            [| 2013; 7; 15 |]
+            [| 2014; 7; 21 |]
+            [| 2015; 7; 20 |]
+            [| 2016; 7; 18 |]
+            [| 2017; 7; 17 |]
+            [| 2018; 7; 16 |]
+            [| 2019; 7; 15 |]
+        ]
+
+    [<Theory>]
+    [<MemberData("betweenAmended")>]
+    let ``2003年から2019年は、7月の第3月曜が海の日で祝日になる`` (y: int) (m: int) (d: int) =
+        DateTime(y, m, d)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be True
+
+    [<Fact>]
+    let ``2020年は、東京五輪・パラリンピック特措法により7月23日が海の日で祝日になる`` () =
+        DateTime(2020, 7, 23)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be True
+
+    [<Fact>]
+    let ``2021年は東京オリンピック開会式前日の7月22日が海の日で祝日になる`` () =
+        DateTime(2021, 7, 22)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be True
+
+    let afterOlympic: obj[] list =
+        [
+            [| 2022; 7; 18 |]
+        ]
+
+    [<Theory>]
+    [<MemberData("afterOlympic")>]
+    let ``東京オリンピック以降は、7月の第3月曜が海の日で祝日になる`` (y: int) (m: int) (d: int) =
+        DateTime(y, m, d)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be True
+
+    [<Fact>]
+    let ``海の日制定以前は、7月20日であっても海の日の祝日ではない`` () =
+        DateTime(1995, 7, 20)
+        |> marineDay
+        |> isOkWith "海の日"
+        |> should be False
+
+module MountainDayTests =
+    let betweenEstablished: obj[] seq =
+        seq { 2016 .. 2019 }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("betweenEstablished")>]
+    let ``2016年から2019年は、8月11日が山の日で祝日になる`` (y: int) =
+        DateTime(y, 8, 11)
+        |> mountainDay
+        |> isOkWith "山の日"
+        |> should be True
+
+    [<Fact>]
+    let ``2020年は、東京五輪・パラリンピック特措法により8月10日が山の日で祝日になる`` () =
+        DateTime(2020, 8, 10)
+        |> mountainDay
+        |> isOkWith "山の日"
+        |> should be True
+
+    [<Fact>]
+    let ``2021年は、東京オリンピック閉会式当日の8月8日が山の日で祝日になる`` () =
+        DateTime(2021, 8, 8)
+        |> mountainDay
+        |> isOkWith "山の日"
+        |> should be True
+
+    let afterOlympic: obj[] seq =
+        seq { 2022 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterOlympic")>]
+    let ``東京オリンピック以降は、8月11日が山の日で祝日になる`` (y: int) =
+        DateTime(y, 8, 11)
+        |> mountainDay
+        |> isOkWith "山の日"
+        |> should be True
+
+    [<Fact>]
+    let ``山の日制定以前は、8月11日であっても山の日の祝日ではない`` () =
+        DateTime(2015, 8, 11)
+        |> mountainDay
+        |> isOkWith "山の日"
+        |> should be False
+
+module RespectForTheAgedDayTests =
+    let betweenEstablished: obj[] seq =
+        seq { 1966 .. 2002 }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("betweenEstablished")>]
+    let ``1966年から2002年は、9月15日が敬老の日で祝日になる`` (y: int) =
+        DateTime(y, 9, 15)
+        |> respectForTheAgedDay
+        |> isOkWith "敬老の日"
+        |> should be True
+
+    let afterHappyMonday: obj[] list =
+        [
+            [| 2003; 9; 15 |]
+            [| 2004; 9; 20 |]
+            [| 2005; 9; 19 |]
+            [| 2006; 9; 18 |]
+            [| 2007; 9; 17 |]
+            [| 2008; 9; 15 |]
+            [| 2009; 9; 21 |]
+            [| 2010; 9; 20 |]
+            [| 2011; 9; 19 |]
+            [| 2012; 9; 17 |]
+            [| 2013; 9; 16 |]
+            [| 2014; 9; 15 |]
+            [| 2015; 9; 21 |]
+            [| 2016; 9; 19 |]
+            [| 2017; 9; 18 |]
+            [| 2018; 9; 17 |]
+            [| 2019; 9; 16 |]
+            [| 2020; 9; 21 |]
+            [| 2021; 9; 20 |]
+            [| 2022; 9; 19 |]
+        ]
+
+    [<Theory>]
+    [<MemberData("afterHappyMonday")>]
+    let ``2003年以降は、9月の第3月曜が敬老の日で祝日になる`` (y: int) (m: int) (d: int) =
+        DateTime(y, m, d)
+        |> respectForTheAgedDay
+        |> isOkWith "敬老の日"
+        |> should be True
+
+    [<Fact>]
+    let ``敬老の日制定以前は9月15日であっても敬老の日の祝日ではない`` () =
+        DateTime(1965, 9, 15)
+        |> respectForTheAgedDay
+        |> isOkWith "敬老の日"
         |> should be False
