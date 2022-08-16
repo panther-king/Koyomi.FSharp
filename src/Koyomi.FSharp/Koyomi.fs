@@ -88,6 +88,24 @@ let private happyMonday (w: HappyMonday) (dt: DateTime) =
         | _ -> false
     | _ -> false
 
+type private Equinox =
+    | Vernal
+    | Autumnal
+
+let private equinoxDay (e: Equinox) (year: int) =
+    let equinox =
+        match e with
+        | Vernal -> 20.8431
+        | Autumnal -> 23.2488
+    let x = float (year - 1980)
+    let y = ((0.242194 * x) + equinox) |> Math.Floor |> int
+    let z = (x / 4.0) |> Math.Floor |> int
+    y - z
+
+let private vernalEquinox = equinoxDay Vernal
+
+let private autumnalEquinox = equinoxDay Autumnal
+
 // @see https://ja.wikipedia.org/wiki/元日
 [<AutoOpen>]
 module NewYearsDay =
@@ -189,14 +207,8 @@ module VernalEquinoxDay =
         | _ -> Expired
 
     let private (|VernalEquinoxDay|_|) (dt: DateTime) =
-        let vernalEquinoxDay' (year: int) =
-            let x = float (year - 1980)
-            let y = ((0.242194 * x) + 20.8431) |> Math.Floor |> int
-            let z = (x / 4.0) |> Math.Floor |> int
-            y - z
-
         match (dt.Month, dt.Day) with
-        | (3, d) when d = vernalEquinoxDay' dt.Year -> Some()
+        | (3, d) when d = vernalEquinox dt.Year -> Some()
         | _ -> None
 
     let vernalEquinoxDay (dt: DateTime) =
@@ -400,6 +412,27 @@ module RespectForTheAgedDay =
         | Amended & HappyMonday -> Ok NAME
         | _ -> Error dt
 
+// @see https://ja.wikipedia.org/wiki/秋分の日
+[<AutoOpen>]
+module AutumnalEquinoxDay =
+    [<Literal>]
+    let private NAME = "秋分の日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1948 < y -> Established
+        | _ -> Expired
+
+    let private (|AutumnalEquinoxDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (9, d) when d = autumnalEquinox dt.Year -> Some()
+        | _ -> None
+
+    let autumnalEquinoxDay (dt: DateTime) =
+        match dt with
+        | Established & AutumnalEquinoxDay -> Ok NAME
+        | _ -> Error dt
+
 [<RequireQualifiedAccess>]
 module Koyomi =
     let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
@@ -421,6 +454,7 @@ module Koyomi =
             >> either Ok marineDay
             >> either Ok mountainDay
             >> either Ok respectForTheAgedDay
+            >> either Ok autumnalEquinoxDay
 
         match holiday dt with
         | Ok holiday -> Holiday (dt, Era.from dt, holiday)
