@@ -102,10 +102,6 @@ let private equinoxDay (e: Equinox) (year: int) =
     let z = (x / 4.0) |> Math.Floor |> int
     y - z
 
-let private vernalEquinox = equinoxDay Vernal
-
-let private autumnalEquinox = equinoxDay Autumnal
-
 // @see https://ja.wikipedia.org/wiki/元日
 [<AutoOpen>]
 module NewYearsDay =
@@ -200,6 +196,8 @@ module EmperorsBirthday =
 module VernalEquinoxDay =
     [<Literal>]
     let private NAME = "春分の日"
+
+    let private vernalEquinox = equinoxDay Vernal
 
     let private (|Established|Expired|) (dt: DateTime) =
         match dt.Year with
@@ -417,6 +415,8 @@ module RespectForTheAgedDay =
 module AutumnalEquinoxDay =
     [<Literal>]
     let private NAME = "秋分の日"
+
+    let private autumnalEquinox = equinoxDay Autumnal
 
     let private (|Established|Expired|) (dt: DateTime) =
         match dt.Year with
