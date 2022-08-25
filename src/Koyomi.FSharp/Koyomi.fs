@@ -433,6 +433,69 @@ module AutumnalEquinoxDay =
         | Established & AutumnalEquinoxDay -> Ok NAME
         | _ -> Error dt
 
+// @see https://ja.wikipedia.org/wiki/スポーツの日_(日本)
+[<AutoOpen>]
+module PhysicalEducationDay =
+    [<Literal>]
+    let private NAME = "体育の日"
+
+    let private (|Established|Amended|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1966 <= y && y <= 1999 -> Established
+        | y when 2000 <= y && y <= 2019 -> Amended
+        | _ -> Expired
+
+    let private (|PhysicalEducationDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (10, 10) -> Some()
+        | _ -> None
+
+    let private (|HappyMonday|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (10, d) -> if happyMonday Second dt then Some() else None
+        | _ -> None
+
+    let physicalEducationDay (dt: DateTime) =
+        match dt with
+        | Established & PhysicalEducationDay -> Ok NAME
+        | Amended & HappyMonday -> Ok NAME
+        | _ -> Error dt
+
+// @see https://ja.wikipedia.org/wiki/スポーツの日_(日本)
+[<AutoOpen>]
+module SportsDay =
+    [<Literal>]
+    let private NAME = "スポーツの日"
+
+    let private (|Established|Spot|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | 2020 -> Spot
+        | 2021 -> Spot
+        | y when 2020 <= y -> Established
+        | _ -> Expired
+
+    let private (|BeforeOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (7, 24) -> Some()
+        | _ -> None
+
+    let private (|TokyoOlympic|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (7, 23) -> Some()
+        | _ -> None
+
+    let private (|SportsDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (10, d) -> if happyMonday Second dt then Some() else None
+        | _ -> None
+
+    let sportsDay (dt: DateTime) =
+        match dt with
+        | Established & SportsDay -> Ok NAME
+        | Spot & BeforeOlympic -> Ok NAME
+        | Spot & TokyoOlympic -> Ok NAME
+        | _ -> Error dt
+
 [<RequireQualifiedAccess>]
 module Koyomi =
     let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
@@ -455,6 +518,8 @@ module Koyomi =
             >> either Ok mountainDay
             >> either Ok respectForTheAgedDay
             >> either Ok autumnalEquinoxDay
+            >> either Ok physicalEducationDay
+            >> either Ok sportsDay
 
         match holiday dt with
         | Ok holiday -> Holiday (dt, Era.from dt, holiday)

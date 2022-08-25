@@ -598,3 +598,90 @@ module AutumnalEquinoxDayTests =
         |> autumnalEquinoxDay
         |> isOkWith "秋分の日"
         |> should be True
+
+module PhysicalEducationDayTests =
+    let betweenEstablished: obj[] seq =
+        seq { 1966 .. 1999 }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("betweenEstablished")>]
+    let ``1966年から1999年は、10月10日が体育の日で祝日になる`` (y: int) =
+        DateTime(y, 10, 10)
+        |> physicalEducationDay
+        |> isOkWith "体育の日"
+        |> should be True
+
+    let afterHappyMonday: obj[] list =
+        [
+            [| 2000; 10; 9 |]
+            [| 2001; 10; 8 |]
+            [| 2002; 10; 14 |]
+            [| 2003; 10; 13 |]
+            [| 2004; 10; 11 |]
+            [| 2005; 10; 10 |]
+            [| 2006; 10; 9 |]
+            [| 2007; 10; 8 |]
+            [| 2008; 10; 13 |]
+            [| 2009; 10; 12 |]
+            [| 2010; 10; 11 |]
+            [| 2011; 10; 10 |]
+            [| 2012; 10; 8 |]
+            [| 2013; 10; 14 |]
+            [| 2014; 10; 13 |]
+            [| 2015; 10; 12 |]
+            [| 2016; 10; 10 |]
+            [| 2017; 10; 9 |]
+            [| 2018; 10; 8 |]
+            [| 2019; 10; 14 |]
+        ]
+
+    [<Theory>]
+    [<MemberData("afterHappyMonday")>]
+    let ``2000年から2019年は、10月の第2月曜が体育の日で祝日になる`` (y: int) (m: int) (d: int) =
+        DateTime(y, m, d)
+        |> physicalEducationDay
+        |> isOkWith "体育の日"
+        |> should be True
+
+    [<Fact>]
+    let ``体育の日制定以前は10月10日であっても体育の日の祝日ではない`` () =
+        DateTime(1965, 10, 10)
+        |> physicalEducationDay
+        |> isOkWith "体育の日"
+        |> should be False
+
+module SportsDayTests =
+    [<Fact>]
+    let ``2020年は、東京五輪・パラリンピック特措法により7月24日がスポーツの日で祝日になる`` () =
+        DateTime(2020, 7, 24)
+        |> sportsDay
+        |> isOkWith "スポーツの日"
+        |> should be True
+
+    [<Fact>]
+    let ``2021年は、東京オリンピック開会式当日の7月23日がスポーツの日で祝日になる`` () =
+        DateTime(2021, 7, 23)
+        |> sportsDay
+        |> isOkWith "スポーツの日"
+        |> should be True
+
+    let afterOlympic: obj[] list =
+        [
+            [| 2022; 10; 10 |]
+        ]
+
+    [<Theory>]
+    [<MemberData("afterOlympic")>]
+    let ``東京オリンピック以降は、10月の第2月曜がスポーツの日で祝日になる`` (y: int) (m: int) (d: int) =
+        DateTime(y, m, d)
+        |> sportsDay
+        |> isOkWith "スポーツの日"
+        |> should be True
+
+    [<Fact>]
+    let ``スポーツの日制定以前は、10月の第2月曜であってもスポーツの日の祝日ではない`` () =
+        DateTime(2019, 10, 14)
+        |> sportsDay
+        |> isOkWith "スポーツの日"
+        |> should be False
