@@ -496,6 +496,48 @@ module SportsDay =
         | Spot & TokyoOlympic -> Ok NAME
         | _ -> Error dt
 
+/// @see https://ja.wikipedia.org/wiki/文化の日
+[<AutoOpen>]
+module CultureDay =
+    [<Literal>]
+    let private NAME = "文化の日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1948 <= y -> Established
+        | _ -> Expired
+
+    let private (|CultureDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (11, 3) -> Some()
+        | _ -> None
+
+    let cultureDay (dt: DateTime) =
+        match dt with
+        | Established & CultureDay -> Ok NAME
+        | _ -> Error dt
+
+/// @see https://ja.wikipedia.org/wiki/勤労感謝の日
+[<AutoOpen>]
+module LaborThanksgivingDay =
+    [<Literal>]
+    let NAME = "勤労感謝の日"
+
+    let private (|Established|Expired|) (dt: DateTime) =
+        match dt.Year with
+        | y when 1948 <= y -> Established
+        | _ -> Expired
+
+    let private (|LaborThanksgivingDay|_|) (dt: DateTime) =
+        match (dt.Month, dt.Day) with
+        | (11, 23) -> Some()
+        | _ -> None
+
+    let laborThanksgivingDay (dt: DateTime) =
+        match dt with
+        | Established & LaborThanksgivingDay -> Ok NAME
+        | _ -> Error dt
+
 [<RequireQualifiedAccess>]
 module Koyomi =
     let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
@@ -520,6 +562,8 @@ module Koyomi =
             >> either Ok autumnalEquinoxDay
             >> either Ok physicalEducationDay
             >> either Ok sportsDay
+            >> either Ok cultureDay
+            >> either Ok laborThanksgivingDay
 
         match holiday dt with
         | Ok holiday -> Holiday (dt, Era.from dt, holiday)

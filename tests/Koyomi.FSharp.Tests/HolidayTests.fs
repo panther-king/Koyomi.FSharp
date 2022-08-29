@@ -685,3 +685,43 @@ module SportsDayTests =
         |> sportsDay
         |> isOkWith "スポーツの日"
         |> should be False
+
+module CultureDayTests =
+    let afterEstablished: obj[] seq =
+        seq { 1948 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterEstablished")>]
+    let ``祝日法の施行後、11月3日は文化の日で祝日になる`` (y: int) =
+        DateTime(y, 11, 3)
+        |> cultureDay
+        |> isOkWith "文化の日"
+        |> should be True
+
+    [<Fact>]
+    let ``祝日法の施行以前は、11月3日であっても文化の日の祝日ではない`` () =
+        DateTime(1947, 11, 3)
+        |> cultureDay
+        |> isOkWith "文化の日"
+        |> should be False
+
+module LaborThanksgivingDayTests =
+    let afterEstablished: obj[] seq =
+        seq { 1948 .. DateTime.Now.Year }
+        |> Seq.map (fun y -> [| y |])
+
+    [<Theory>]
+    [<MemberData("afterEstablished")>]
+    let ``祝日法の施行後、11月23日は勤労感謝の日で祝日になる`` (y: int) =
+        DateTime(y, 11, 23)
+        |> laborThanksgivingDay
+        |> isOkWith "勤労感謝の日"
+        |> should be True
+
+    [<Fact>]
+    let ``祝日法の施行以前は、11月23日であっても勤労感謝の日の祝日ではない`` () =
+        DateTime(1947, 11, 23)
+        |> laborThanksgivingDay
+        |> isOkWith "勤労感謝の日"
+        |> should be False
