@@ -532,35 +532,56 @@ module LaborThanksgivingDay =
         | Enforced & LaborThanksgivingDay name -> Ok name
         | _ -> Error dt
 
+let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
+    function
+    | Ok x -> f1 x
+    | Error x -> f2 x
+
+let private holiday =
+    newYearsDay
+    >> either Ok comingOfAgeDay
+    >> either Ok nationalFoundationDay
+    >> either Ok emperorsBirthday
+    >> either Ok vernalEquinoxDay
+    >> either Ok greenDay
+    >> either Ok showaDay
+    >> either Ok constitutionDay
+    >> either Ok childrensDay
+    >> either Ok marineDay
+    >> either Ok mountainDay
+    >> either Ok respectForTheAgedDay
+    >> either Ok autumnalEquinoxDay
+    >> either Ok physicalEducationDay
+    >> either Ok sportsDay
+    >> either Ok cultureDay
+    >> either Ok laborThanksgivingDay
+
+/// @see https://ja.wikipedia.org/wiki/振替休日
+[<AutoOpen>]
+module Substitute =
+    [<Literal>]
+    let private NAME = "振替休日"
+
+    let private enforced = DateTime(1973, 4, 30)
+
+    let rec private substitute_holiday (y: DateTime) =
+        match holiday y with
+        | Ok _ ->
+            if y.DayOfWeek = DayOfWeek.Sunday
+            then Ok NAME
+            else y.AddDays(-1) |> substitute_holiday
+        | x -> x
+
+    let substitute (dt: DateTime) =
+        if dt < enforced
+        then Error dt
+        else dt.AddDays(-1) |> substitute_holiday
+
 [<RequireQualifiedAccess>]
 module Koyomi =
-    let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
-        function
-        | Ok x -> f1 x
-        | Error x -> f2 x
-
     let from (dt: DateTime) =
-        let holiday =
-            newYearsDay
-            >> either Ok comingOfAgeDay
-            >> either Ok nationalFoundationDay
-            >> either Ok emperorsBirthday
-            >> either Ok vernalEquinoxDay
-            >> either Ok greenDay
-            >> either Ok showaDay
-            >> either Ok constitutionDay
-            >> either Ok childrensDay
-            >> either Ok marineDay
-            >> either Ok mountainDay
-            >> either Ok respectForTheAgedDay
-            >> either Ok autumnalEquinoxDay
-            >> either Ok physicalEducationDay
-            >> either Ok sportsDay
-            >> either Ok cultureDay
-            >> either Ok laborThanksgivingDay
-
         match holiday dt with
-        | Ok holiday -> Holiday (dt, Era.from dt, holiday)
+        | Ok h -> Holiday (dt, Era.from dt, h)
         | Error _ -> Weekday (dt, Era.from dt)
 
     let holiday (k: Koyomi) =

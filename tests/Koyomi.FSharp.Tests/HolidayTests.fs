@@ -725,3 +725,25 @@ module LaborThanksgivingDayTests =
         |> laborThanksgivingDay
         |> isOkWith "勤労感謝の日"
         |> should be False
+
+module SubstituteTests =
+    [<Fact>]
+    let ``日曜日が祝日の場合は、次の月曜日が振替休日になる`` () =
+        DateTime(2021, 8, 9)
+        |> substitute
+        |> isOkWith "振替休日"
+        |> should be True
+
+    [<Fact>]
+    let ``日曜日の次に祝日が連続する場合は、祝日の次の平日が振替休日になる`` () =
+        DateTime(2020, 5, 6)
+        |> substitute
+        |> isOkWith "振替休日"
+        |> should be True
+
+    [<Fact>]
+    let ``祝日法の改正前は、日曜日が祝日であっても次の月曜日は祝日にならない`` () =
+        DateTime(1973, 2, 12)
+        |> substitute
+        |> isOkWith "振替休日"
+        |> should be False
