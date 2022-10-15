@@ -83,9 +83,8 @@ let private happyMonday (w: HappyMonday) (dt: DateTime) =
     match dt.DayOfWeek with
     | DayOfWeek.Monday ->
         match (w, dt.Day) with
-        | (Second, d) when 8 <= d && d <= 14 -> true
-        | (Third, d) when 15 <= d && d <= 21 -> true
-        | _ -> false
+        | (Second, d) -> 8 <= d && d <= 14
+        | (Third, d) -> 15 <= d && d <= 21
     | _ -> false
 
 type private Equinox =
