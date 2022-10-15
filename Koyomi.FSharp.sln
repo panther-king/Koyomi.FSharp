@@ -1,15 +1,14 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D07C3359-783C-47E7-B84D-D8DB6B2E8206}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Koyomi.FSharp", "src\Koyomi.FSharp\Koyomi.FSharp.fsproj", "{3EBFB5C6-F43C-4E8A-A4C8-147808394D6E}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Koyomi.FSharp", "src\Koyomi.FSharp.fsproj", "{3EBFB5C6-F43C-4E8A-A4C8-147808394D6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{19D82566-B97D-4593-9F3D-4B5F32920317}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Koyomi.FSharp.Tests", "tests\Koyomi.FSharp.Tests\Koyomi.FSharp.Tests.fsproj", "{88F9FDF5-C749-471A-84AC-355AD4378777}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Koyomi.FSharp.Tests", "tests\Koyomi.FSharp.Tests.fsproj", "{88F9FDF5-C749-471A-84AC-355AD4378777}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
