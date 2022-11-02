@@ -102,7 +102,7 @@ let private equinoxDay (e: Equinox) (year: int) =
     y - z
 
 /// @see https://ja.wikipedia.org/wiki/元日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module NewYearsDay =
     [<Literal>]
     let private NAME = "元日"
@@ -115,13 +115,13 @@ module NewYearsDay =
         | (1, 1) -> Some NAME
         | _ -> None
 
-    let newYearsDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & NewYearsDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/成人の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module ComingOfAgeDay =
     [<Literal>]
     let private NAME = "成人の日"
@@ -144,14 +144,14 @@ module ComingOfAgeDay =
         | (1, true) -> Some NAME
         | _ -> None
 
-    let comingOfAgeDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & ComingOfAgeDay name -> Ok name
         | Amended & HappyMonday name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/建国記念の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module NationalFoundationDay =
     [<Literal>]
     let private NAME = "建国記念の日"
@@ -164,13 +164,13 @@ module NationalFoundationDay =
         | (2, 11) -> Some NAME
         | _ -> None
 
-    let nationalFoundationDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & NationalFoundationDay name -> Ok name
         | _ -> Error dt
 
 // @see https://ja.wikipedia.org/wiki/天皇誕生日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module EmperorsBirthday =
     [<Literal>]
     let private NAME = "天皇誕生日"
@@ -183,13 +183,13 @@ module EmperorsBirthday =
         | (Reiwa, 2, 23) -> Some NAME
         | _ -> None
 
-    let emperorsBirthday (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | EmperorsBirthday name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/春分の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module VernalEquinoxDay =
     [<Literal>]
     let private NAME = "春分の日"
@@ -204,13 +204,13 @@ module VernalEquinoxDay =
         | (3, true) -> Some NAME
         | _ -> None
 
-    let vernalEquinoxDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & VernalEquinoxDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/みどりの日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module GreenDay =
     [<Literal>]
     let private NAME = "みどりの日"
@@ -231,14 +231,14 @@ module GreenDay =
         | (5, 4) -> Some NAME
         | _ -> None
 
-    let greenDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & UntilAmended name -> Ok name
         | Amended & SinceAmended name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/昭和の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module ShowaDay =
     [<Literal>]
     let private NAME = "昭和の日"
@@ -251,13 +251,13 @@ module ShowaDay =
         | (4, 29) -> Some NAME
         | _ -> None
 
-    let showaDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & ShowaDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/憲法記念日_(日本)
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module ConstitutionDay =
     [<Literal>]
     let private NAME = "憲法記念日"
@@ -272,13 +272,13 @@ module ConstitutionDay =
         | (5, 3) -> Some NAME
         | _ -> None
 
-    let constitutionDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & ConstitutionDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/こどもの日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module ChildrensDay =
     [<Literal>]
     let private NAME = "こどもの日"
@@ -291,13 +291,13 @@ module ChildrensDay =
         | (5, 5) -> Some NAME
         | _ -> None
 
-    let childrensDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & ChildrensDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/こどもの日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module MarineDay =
     [<Literal>]
     let private NAME = "海の日"
@@ -332,7 +332,7 @@ module MarineDay =
         | (7, 22) -> Some NAME
         | _ -> None
 
-    let marineDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & MarineDay name -> Ok name
         | Amended & HappyMonday name -> Ok name
@@ -341,7 +341,7 @@ module MarineDay =
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/海の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module MountainDay =
     [<Literal>]
     let private NAME = "山の日"
@@ -368,7 +368,7 @@ module MountainDay =
         | (8, 8) -> Some NAME
         | _ -> None
 
-    let mountainDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & MountainDay name -> Ok name
         | Spot & BeforeOlympic name -> Ok name
@@ -376,7 +376,7 @@ module MountainDay =
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/敬老の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module RespectForTheAgedDay =
     [<Literal>]
     let private NAME = "敬老の日"
@@ -399,14 +399,14 @@ module RespectForTheAgedDay =
         | (9, true) -> Some NAME
         | _ -> None
 
-    let respectForTheAgedDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & RespectForTheAgedDay name -> Ok name
         | Amended & HappyMonday name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/秋分の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module AutumnalEquinoxDay =
     [<Literal>]
     let private NAME = "秋分の日"
@@ -421,13 +421,13 @@ module AutumnalEquinoxDay =
         | (9, true) -> Some NAME
         | _ -> None
 
-    let autumnalEquinoxDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & AutumnalEquinoxDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/スポーツの日_(日本)
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module PhysicalEducationDay =
     [<Literal>]
     let private NAME = "体育の日"
@@ -450,14 +450,14 @@ module PhysicalEducationDay =
         | (10, true) -> Some NAME
         | _ -> None
 
-    let physicalEducationDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & PhysicalEducationDay name -> Ok name
         | Amended & HappyMonday name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/スポーツの日_(日本)
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module SportsDay =
     [<Literal>]
     let private NAME = "スポーツの日"
@@ -486,7 +486,7 @@ module SportsDay =
         | (10, true) -> Some NAME
         | _ -> None
 
-    let sportsDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & SportsDay name -> Ok name
         | Spot & BeforeOlympic name -> Ok name
@@ -494,7 +494,7 @@ module SportsDay =
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/文化の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module CultureDay =
     [<Literal>]
     let private NAME = "文化の日"
@@ -507,13 +507,13 @@ module CultureDay =
         | (11, 3) -> Some NAME
         | _ -> None
 
-    let cultureDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & CultureDay name -> Ok name
         | _ -> Error dt
 
 /// @see https://ja.wikipedia.org/wiki/勤労感謝の日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module LaborThanksgivingDay =
     [<Literal>]
     let NAME = "勤労感謝の日"
@@ -526,7 +526,7 @@ module LaborThanksgivingDay =
         | (11, 23) -> Some NAME
         | _ -> None
 
-    let laborThanksgivingDay (dt: DateTime) =
+    let orNot (dt: DateTime) =
         match dt with
         | Enforced & LaborThanksgivingDay name -> Ok name
         | _ -> Error dt
@@ -537,26 +537,26 @@ let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
     | Error x -> f2 x
 
 let private holiday =
-    newYearsDay
-    >> either Ok comingOfAgeDay
-    >> either Ok nationalFoundationDay
-    >> either Ok emperorsBirthday
-    >> either Ok vernalEquinoxDay
-    >> either Ok greenDay
-    >> either Ok showaDay
-    >> either Ok constitutionDay
-    >> either Ok childrensDay
-    >> either Ok marineDay
-    >> either Ok mountainDay
-    >> either Ok respectForTheAgedDay
-    >> either Ok autumnalEquinoxDay
-    >> either Ok physicalEducationDay
-    >> either Ok sportsDay
-    >> either Ok cultureDay
-    >> either Ok laborThanksgivingDay
+    NewYearsDay.orNot
+    >> either Ok ComingOfAgeDay.orNot
+    >> either Ok NationalFoundationDay.orNot
+    >> either Ok EmperorsBirthday.orNot
+    >> either Ok VernalEquinoxDay.orNot
+    >> either Ok GreenDay.orNot
+    >> either Ok ShowaDay.orNot
+    >> either Ok ConstitutionDay.orNot
+    >> either Ok ChildrensDay.orNot
+    >> either Ok MarineDay.orNot
+    >> either Ok MountainDay.orNot
+    >> either Ok RespectForTheAgedDay.orNot
+    >> either Ok AutumnalEquinoxDay.orNot
+    >> either Ok PhysicalEducationDay.orNot
+    >> either Ok SportsDay.orNot
+    >> either Ok CultureDay.orNot
+    >> either Ok LaborThanksgivingDay.orNot
 
 /// @see https://ja.wikipedia.org/wiki/振替休日
-[<AutoOpen>]
+[<RequireQualifiedAccess>]
 module Substitute =
     [<Literal>]
     let private NAME = "振替休日"
@@ -571,7 +571,7 @@ module Substitute =
             else y.AddDays(-1) |> substitute_holiday
         | x -> x
 
-    let substitute (dt: DateTime) =
+    let orNot (dt: DateTime) =
         if dt < enforced
         then Error dt
         else dt.AddDays(-1) |> substitute_holiday
