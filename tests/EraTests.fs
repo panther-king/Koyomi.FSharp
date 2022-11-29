@@ -57,3 +57,8 @@ module EraTests =
               FullName = "令和元年"
               Name = "令和"
               Year = 1 }
+
+    [<Fact>]
+    let ``昭和以前の日付は扱えない`` () =
+        (fun () -> DateTime (1926, 12, 24) |> Era.from |> ignore)
+        |> should throw typeof<System.ArgumentException>

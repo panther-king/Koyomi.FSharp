@@ -6,10 +6,12 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Tests.fs" />
     <Compile Include="TestHelper.fs" />
+    <Compile Include="KoyomiTests.fs" />
+    <Compile Include="EraTests.fs" />
     <Compile Include="HolidayTests.fs" />
     <Compile Include="Year2022Tests.fs" />
+    <Compile Include="Year2023Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

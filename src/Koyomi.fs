@@ -7,17 +7,11 @@ type Epoc =
     | Heisei
     | Showa
 
-[<Struct>]
 type Era =
     { Epoc: Epoc
       FullName: string
       Name: string
       Year: int }
-
-type Koyomi =
-    private
-    | Holiday of DateTime * Era * string
-    | Weekday of DateTime * Era
 
 [<RequireQualifiedAccess>]
 module Era =
@@ -531,6 +525,19 @@ module LaborThanksgivingDay =
         | Enforced & LaborThanksgivingDay name -> Ok name
         | _ -> Error dt
 
+/// @see https://ja.wikipedia.org/wiki/国民の祝日
+[<RequireQualifiedAccess>]
+module ImperialCeremony =
+    let orNot (dt: DateTime) =
+        match (dt.Year, dt.Month, dt.Day) with
+        | (1959, 4, 10) -> Ok "明仁親王の結婚の儀"
+        | (1989, 2, 24) -> Ok "昭和天皇大喪の礼"
+        | (1990, 11, 12) -> Ok "即位礼正殿の儀"
+        | (1993, 6, 9) -> Ok "徳仁親王の結婚の儀"
+        | (2019, 5, 1) -> Ok "令和天皇即位"
+        | (2019, 10, 22) -> Ok "即位礼正殿の儀"
+        | _ -> Error dt
+
 let private either (f1: 'a -> 'c) (f2: 'b -> 'c) =
     function
     | Ok x -> f1 x
@@ -563,32 +570,61 @@ module Substitute =
 
     let private enforced = DateTime(1973, 4, 30)
 
-    let rec private substitute_holiday (y: DateTime) =
+    let rec private substituteHoliday (y: DateTime) =
         match holiday y with
         | Ok _ ->
             if y.DayOfWeek = DayOfWeek.Sunday
             then Ok NAME
-            else y.AddDays(-1) |> substitute_holiday
+            else y.AddDays(-1) |> substituteHoliday
         | x -> x
 
     let orNot (dt: DateTime) =
         if dt < enforced
         then Error dt
-        else dt.AddDays(-1) |> substitute_holiday
+        else dt.AddDays(-1) |> substituteHoliday
+
+type Koyomi =
+    private
+    | Holiday of DateTime * Era * string
+    | Weekday of DateTime * Era
 
 [<RequireQualifiedAccess>]
 module Koyomi =
+    let private holidayAndSubstitute =
+        holiday >> either Ok Substitute.orNot
+
+    let private dateTime =
+        function
+        | Holiday (dt, _, _) -> dt
+        | Weekday (dt, _) -> dt
+
     let from (dt: DateTime) =
-        match holiday dt with
+        match holidayAndSubstitute dt with
         | Ok h -> Holiday (dt, Era.from dt, h)
         | Error _ -> Weekday (dt, Era.from dt)
 
-    let holiday (k: Koyomi) =
-        match k with
+    let init (y: int) (m: int) (d: int) =
+        DateTime(y, m, d) |> from
+
+    let holiday =
+        function
         | Holiday (_, _, h) -> Some h
         | _ -> None
 
-    let isHoliday (k: Koyomi)  =
-        match k with
+    let isHoliday =
+        function
         | Holiday _ -> true
         | Weekday _ -> false
+
+    let era =
+        function
+        | Holiday (_, e, _) -> e
+        | Weekday (_, e) -> e
+
+    let year (k: Koyomi) = (dateTime k).Year
+
+    let month (k: Koyomi) = (dateTime k).Month
+
+    let day (k: Koyomi) = (dateTime k).Day
+
+    let dayOfWeek (k: Koyomi) = (dateTime k).DayOfWeek

@@ -747,3 +747,46 @@ module SubstituteTests =
         |> Substitute.orNot
         |> isOkWith "振替休日"
         |> should be False
+
+module ImperialCeremonyTests =
+    [<Fact>]
+    let ``1959年4月10日は、明仁親王の婚礼で祝日になる`` () =
+        DateTime(1959, 4, 10)
+        |> ImperialCeremony.orNot
+        |> isOkWith "明仁親王の結婚の儀"
+        |> should be True
+
+    [<Fact>]
+    let ``1989年2月24日は、昭和天皇大喪の礼で祝日になる`` () =
+        DateTime(1989, 2, 24)
+        |> ImperialCeremony.orNot
+        |> isOkWith "昭和天皇大喪の礼"
+        |> should be True
+
+    [<Fact>]
+    let ``1990年11月12日は、平成天皇の即位礼正殿の儀で祝日になる`` () =
+        DateTime(1990, 11, 12)
+        |> ImperialCeremony.orNot
+        |> isOkWith "即位礼正殿の儀"
+        |> should be True
+
+    [<Fact>]
+    let ``1993年6月9日は、徳仁親王の婚礼で祝日になる`` () =
+        DateTime(1993, 6, 9)
+        |> ImperialCeremony.orNot
+        |> isOkWith "徳仁親王の結婚の儀"
+        |> should be True
+
+    [<Fact>]
+    let ``2019年5月1日は、令和天皇の即位で祝日になる`` () =
+        DateTime(2019, 5, 1)
+        |> ImperialCeremony.orNot
+        |> isOkWith "令和天皇即位"
+        |> should be True
+
+    [<Fact>]
+    let ``2019年10月22日は、令和天皇の即位礼正殿の儀で祝日になる`` () =
+        DateTime(2019, 10, 22)
+        |> ImperialCeremony.orNot
+        |> isOkWith "即位礼正殿の儀"
+        |> should be True
