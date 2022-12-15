@@ -5,7 +5,7 @@ open System
 open Xunit
 open FsUnit.Xunit
 
-open Koyomi.FSharp
+open Koyomi.FSharp.Holiday
 
 module NewYearsDayTests =
     let afterEstablished: obj[] seq =
