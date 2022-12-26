@@ -10,6 +10,7 @@
     <Compile Include="KoyomiTests.fs" />
     <Compile Include="EraTests.fs" />
     <Compile Include="HolidayTests.fs" />
+    <Compile Include="CalendarTests.fs" />
     <Compile Include="Year2022Tests.fs" />
     <Compile Include="Year2023Tests.fs" />
     <Compile Include="Program.fs" />

@@ -617,3 +617,33 @@ module Koyomi =
     let addMonths (m: int) (Koyomi dt) = dt.AddMonths m |> from
 
     let addDays (d: int) (Koyomi dt) = dt.AddDays d |> from
+
+[<RequireQualifiedAccess>]
+module Calendar =
+    let rec private calendar (f: DateTime) (u: DateTime) (c: DateTime list) =
+        if f.CompareTo u > 0 then List.rev c
+        else calendar (f.AddDays 1) u (f :: c)
+
+    let between (from: DateTime) (until: DateTime) =
+        if until < from
+        then []
+        else
+            calendar from.Date until.Date []
+            |> List.map Koyomi.from
+
+    let from (f: DateTime) = between f DateTime.Now
+
+    let until (u: DateTime) = between DateTime.Now u
+
+    let ofMonth (y: int) (month: int) =
+        match month with
+        | m when 1 <= m && m <= 12 ->
+            let from = DateTime(y, m, 1)
+            let until = from.AddMonths(1).AddDays(-1)
+            between from until
+        | _ -> []
+
+    let ofYear (y: int) =
+        let from = DateTime(y, 1, 1)
+        let until = from.AddYears(1).AddDays(-1)
+        between from until
