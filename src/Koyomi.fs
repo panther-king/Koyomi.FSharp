@@ -586,7 +586,7 @@ type Koyomi = private Koyomi of DateTime
 
 [<RequireQualifiedAccess>]
 module Koyomi =
-    let from (dt: DateTime) = Koyomi dt
+    let from (dt: DateTime) = Koyomi dt.Date
 
     let today = DateTime.Now |> from
 
@@ -601,6 +601,8 @@ module Koyomi =
         match holiday k with
         | Some _ -> true
         | None -> false
+
+    let format (fmt: string) (Koyomi dt) = dt.ToString fmt
 
     let year (Koyomi dt) = dt.Year
 

@@ -30,6 +30,13 @@ let ``祝日でないことを判定できる`` () =
     |> should be False
 
 [<Fact>]
+let ``指定した形式でフォーマットできる`` () =
+    DateTime(2022, 12, 1)
+    |> Koyomi.from
+    |> Koyomi.format "yyyy/MM/dd"
+    |> should equal "2022/12/01"
+
+[<Fact>]
 let ``西暦を取得できる`` () =
     DateTime(2022, 1, 1)
     |> Koyomi.from
