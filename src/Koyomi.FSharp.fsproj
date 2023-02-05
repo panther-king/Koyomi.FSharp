@@ -6,8 +6,8 @@
     <PackageId>Koyomi.FSharp</PackageId>
     <Version>1.0.0</Version>
     <Author>panther-king</Author>
-    <PackageProjectUrl>https://github.com/Zaid-Ajaj/Npgsql.FSharp</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Zaid-Ajaj/Npgsql.FSharp.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/panther-king/Koyomi.FSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/panther-king/Koyomi.FSharp.git</RepositoryUrl>
     <PackageLicense>https://github.com/panther-king/Koyomi.FSharp/blob/main/LICENSE</PackageLicense>
     <PackageTags>fsharp;calendar;japanese</PackageTags>
   </PropertyGroup>
