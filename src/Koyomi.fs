@@ -647,3 +647,6 @@ module Calendar =
         let from = DateTime(y, 1, 1)
         let until = from.AddYears(1).AddDays(-1)
         between from until
+
+    let ofHolidays (days: Koyomi list) =
+        List.filter Koyomi.isHoliday days

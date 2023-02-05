@@ -61,3 +61,10 @@ let ``指定した年のカレンダーを生成できる`` () =
     Seq.head cal |> should equal (Koyomi.from from)
     Seq.rev cal |> Seq.head |> should equal (Koyomi.from until)
     Seq.length cal |> should equal 366
+
+[<Fact>]
+let ``カレンダーから祝日だけを抽出できる`` () =
+    let cal = Calendar.ofYear 2023
+    Calendar.ofHolidays cal
+    |> Seq.length
+    |> should equal 17
