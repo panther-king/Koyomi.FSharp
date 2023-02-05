@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>Koyomi.FSharp</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Author>panther-king</Author>
     <PackageProjectUrl>https://github.com/panther-king/Koyomi.FSharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/panther-king/Koyomi.FSharp.git</RepositoryUrl>
