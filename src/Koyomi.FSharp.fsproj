@@ -4,9 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageId>Koyomi.FSharp</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
     <Author>panther-king</Author>
     <PackageProjectUrl>https://github.com/panther-king/Koyomi.FSharp</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/panther-king/Koyomi.FSharp.git</RepositoryUrl>
     <PackageLicense>https://github.com/panther-king/Koyomi.FSharp/blob/main/LICENSE</PackageLicense>
     <PackageTags>fsharp;calendar;japanese</PackageTags>
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <Compile Include="Koyomi.fs" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
