@@ -1,11 +1,14 @@
 # Koyomi.FSharp
 
+[![.NET](https://github.com/panther-king/Koyomi.FSharp/actions/workflows/test.yml/badge.svg)](https://github.com/panther-king/Koyomi.FSharp/actions/workflows/test.yml)
+![Nuget](https://img.shields.io/nuget/dt/Koyomi.FSharp)
+
 "Koyomi.FSharp" is a thin wrapper for `System.DateTime`.
 This can determine Japanese holidays and no configuration file or database maintenance is required.
 
 # Requirement
 
-- `dotnet >= 7.0`
+- `dotnet >= 8.0`
 
 # Installation
 
