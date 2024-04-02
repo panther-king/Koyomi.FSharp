@@ -6,7 +6,7 @@ let isOkWith (expect: 'a) (actual: Result<'a, 'b>) =
     | Ok x when x = expect -> true
     | _ -> false
 
-let isSome (expect:  'a) (actual: Option<'a>) =
+let isSome (expect: 'a) (actual: Option<'a>) =
     match actual with
     | Some x when x = expect -> true
     | _ -> false

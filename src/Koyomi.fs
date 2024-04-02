@@ -40,17 +40,18 @@ module Era =
             else if within heisei dt then Heisei
             else if within showa dt then Showa
             else invalidArg (nameof dt) "昭和以前の元号は利用できません。"
-        Era (epoc, dt.Year)
 
-    let epoc (Era (ep, _)) = ep
+        Era(epoc, dt.Year)
 
-    let name (Era (e, _)) =
+    let epoc (Era(ep, _)) = ep
+
+    let name (Era(e, _)) =
         match e with
         | Reiwa -> "令和"
         | Heisei -> "平成"
         | Showa -> "昭和"
 
-    let year (Era (e, y)) =
+    let year (Era(e, y)) =
         match e with
         | Reiwa -> y - 2018
         | Heisei -> y - 1988
@@ -85,6 +86,7 @@ module Holiday =
             match e with
             | Vernal -> 20.8431
             | Autumnal -> 23.2488
+
         let x = float (year - 1980)
         let y = ((0.242194 * x) + equinox) |> Math.Floor |> int
         let z = (x / 4.0) |> Math.Floor |> int
@@ -96,8 +98,7 @@ module Holiday =
         [<Literal>]
         let private NAME = "元日"
 
-        let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 < dt.Year then Some () else None
+        let private (|Enforced|_|) (dt: DateTime) = if 1948 < dt.Year then Some() else None
 
         let private (|NewYearsDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -146,7 +147,7 @@ module Holiday =
         let private NAME = "建国記念の日"
 
         let private (|Enforced|_|) (dt: DateTime) =
-            if 1967 <= dt.Year then Some () else None
+            if 1967 <= dt.Year then Some() else None
 
         let private (|NationalFoundationDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -166,6 +167,7 @@ module Holiday =
 
         let private (|EmperorsBirthday|_|) (dt: DateTime) =
             let era = Era.from dt |> Era.epoc
+
             match (era, dt.Month, dt.Day) with
             | (Era.Showa, 4, 29) when 1948 < dt.Year -> Some NAME
             | (Era.Heisei, 12, 23) -> Some NAME
@@ -185,8 +187,7 @@ module Holiday =
 
         let private vernalEquinox = equinoxDay Vernal
 
-        let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 < dt.Year then Some () else None
+        let private (|Enforced|_|) (dt: DateTime) = if 1948 < dt.Year then Some() else None
 
         let private (|VernalEquinoxDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day = vernalEquinox dt.Year) with
@@ -233,7 +234,7 @@ module Holiday =
         let private NAME = "昭和の日"
 
         let private (|Enforced|_|) (dt: DateTime) =
-            if 2007 <= dt.Year then Some () else None
+            if 2007 <= dt.Year then Some() else None
 
         let private (|ShowaDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -253,7 +254,7 @@ module Holiday =
 
         let private (|Enforced|_|) (dt: DateTime) =
             match dt.Year with
-            | y when 1948 <= y -> Some ()
+            | y when 1948 <= y -> Some()
             | _ -> None
 
         let private (|ConstitutionDay|_|) (dt: DateTime) =
@@ -273,7 +274,7 @@ module Holiday =
         let private NAME = "こどもの日"
 
         let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 <= dt.Year then Some () else None
+            if 1948 <= dt.Year then Some() else None
 
         let private (|ChildrensDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -402,8 +403,7 @@ module Holiday =
 
         let private autumnalEquinox = equinoxDay Autumnal
 
-        let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 < dt.Year then Some () else None
+        let private (|Enforced|_|) (dt: DateTime) = if 1948 < dt.Year then Some() else None
 
         let private (|AutumnalEquinoxDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day = autumnalEquinox dt.Year) with
@@ -489,7 +489,7 @@ module Holiday =
         let private NAME = "文化の日"
 
         let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 <= dt.Year then Some () else None
+            if 1948 <= dt.Year then Some() else None
 
         let private (|CultureDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -508,7 +508,7 @@ module Holiday =
         let NAME = "勤労感謝の日"
 
         let private (|Enforced|_|) (dt: DateTime) =
-            if 1948 <= dt.Year then Some () else None
+            if 1948 <= dt.Year then Some() else None
 
         let private (|LaborThanksgivingDay|_|) (dt: DateTime) =
             match (dt.Month, dt.Day) with
@@ -568,23 +568,22 @@ module Holiday =
         let rec private substituteHoliday (y: DateTime) =
             match holidayWithoutSubstitute y with
             | Ok _ ->
-                if y.DayOfWeek = DayOfWeek.Sunday
-                then Ok NAME
-                else y.AddDays(-1) |> substituteHoliday
+                if y.DayOfWeek = DayOfWeek.Sunday then
+                    Ok NAME
+                else
+                    y.AddDays(-1) |> substituteHoliday
             | x -> x
 
         let orNot (dt: DateTime) =
-            if dt < enforced
-            then Error dt
-            else dt.AddDays(-1) |> substituteHoliday
+            if dt < enforced then
+                Error dt
+            else
+                dt.AddDays(-1) |> substituteHoliday
 
-    let internal orNot =
-        holidayWithoutSubstitute
-        >> either Ok Substitute.orNot
+    let internal orNot = holidayWithoutSubstitute >> either Ok Substitute.orNot
 
 type Koyomi = private Koyomi of DateTime
 
-[<RequireQualifiedAccess>]
 module Koyomi =
     let from (dt: DateTime) = Koyomi dt.Date
 
@@ -621,15 +620,16 @@ module Koyomi =
 [<RequireQualifiedAccess>]
 module Calendar =
     let rec private calendar (f: DateTime) (u: DateTime) (c: DateTime list) =
-        if f.CompareTo u > 0 then List.rev c
-        else calendar (f.AddDays 1) u (f :: c)
+        if f.CompareTo u > 0 then
+            List.rev c
+        else
+            calendar (f.AddDays 1) u (f :: c)
 
     let between (from: DateTime) (until: DateTime) =
-        if until < from
-        then []
+        if until < from then
+            []
         else
-            calendar from.Date until.Date []
-            |> List.map Koyomi.from
+            calendar from.Date until.Date [] |> List.map Koyomi.from
 
     let from (f: DateTime) = between f DateTime.Now
 
@@ -648,5 +648,4 @@ module Calendar =
         let until = from.AddYears(1).AddDays(-1)
         between from until
 
-    let ofHolidays (days: Koyomi list) =
-        List.filter Koyomi.isHoliday days
+    let ofHolidays (days: Koyomi list) = List.filter Koyomi.isHoliday days
