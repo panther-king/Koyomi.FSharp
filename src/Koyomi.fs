@@ -2,6 +2,33 @@ namespace Koyomi.FSharp
 
 open System
 
+type JapaneseDate =
+    { Day: int
+      Era: JapaneseEra option
+      HeavenlyStem: HeavenlyStem
+      Holiday: JapaneseHoliday option
+      Month: JapaneseMonth
+      MonthNumber: int
+      SexagenaryCycle: SexagenaryCycle
+      Weekday: JapaneseWeekday
+      WesternYear: int
+      Zodiac: JapaneseZodiac }
+
+[<RequireQualifiedAccess>]
+module JapaneseDate =
+    let fromDateOnly (date: DateOnly) =
+        { Day = date.Day
+          Era = JapaneseEra.fromDateOnly date
+          HeavenlyStem = HeavenlyStem.fromDateOnly date
+          Holiday = JapaneseHoliday.hoilday date
+          Month = JapaneseMonth.fromDateOnly date
+          MonthNumber = date.Month
+          SexagenaryCycle = SexagenaryCycle.fromDateOnly date
+          Weekday = JapaneseWeekday.fromDateOnly date
+          WesternYear = date.Year
+          Zodiac = JapaneseZodiac.fromDateOnly date }
+
+[<Obsolete("Please use JapaneseEra instead, as it will be removed in the next version.")>]
 [<RequireQualifiedAccess>]
 module Era =
     type Epoc =
@@ -62,8 +89,10 @@ module Era =
             match year era with
             | 1 -> "元"
             | x -> string x
+
         $"{name era}{epocYear}年"
 
+[<Obsolete("Please use JapaneseHoliday instead, as it will be removed in the next version.")>]
 module Holiday =
     type private HappyMonday =
         | Second

@@ -7,8 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="TestHelper.fs" />
-    <Compile Include="KoyomiTests.fs" />
+    <Compile Include="DayTests.fs" />
+    <Compile Include="MonthTests.fs" />
+    <Compile Include="YearTests.fs" />
     <Compile Include="EraTests.fs" />
+    <Compile Include="KoyomiTests.fs" />
     <Compile Include="HolidayTests.fs" />
     <Compile Include="CalendarTests.fs" />
     <Compile Include="Year2022Tests.fs" />

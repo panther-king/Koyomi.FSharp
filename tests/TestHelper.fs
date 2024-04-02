@@ -10,3 +10,8 @@ let isSome (expect: 'a) (actual: Option<'a>) =
     match actual with
     | Some x when x = expect -> true
     | _ -> false
+
+let isSomeOf (expect: 'a) (actual: Option<'a>) =
+    match actual with
+    | Some x when x = expect -> true
+    | _ -> false

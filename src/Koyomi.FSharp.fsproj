@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Day.fs" />
+    <Compile Include="Month.fs" />
+    <Compile Include="Year.fs" />
+    <Compile Include="Era.fs" />
     <Compile Include="Koyomi.fs" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
