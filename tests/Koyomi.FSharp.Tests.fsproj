@@ -14,6 +14,7 @@
     <Compile Include="Year2022Tests.fs" />
     <Compile Include="Year2023Tests.fs" />
     <Compile Include="Year2024Tests.fs" />
+    <Compile Include="Year2025Tests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
