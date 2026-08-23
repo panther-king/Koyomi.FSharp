@@ -14,19 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-      - name: dotnet restore
-        run: dotnet restore
+      - name: Setup dependencies
+        uses: jdx/mise-action@3c2e0cf82a5b2e5249f0d3635a4d83d0ae861518
       - name: Install dependencies
-        run: |
-          dotnet new tool-manifest --force
-          dotnet tool install paket
-          dotnet tool restore
-          dotnet paket init
-          dotnet paket install
+        run: paket install
       - name: Build
         run: dotnet build --no-restore
       - name: Test

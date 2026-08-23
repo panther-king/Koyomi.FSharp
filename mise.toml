@@ -1,0 +1,12 @@
+[env]
+DOTNET_SYSTEM_GLOBALIZATION_INVARIANT = "true"
+
+[settings]
+lockfile = true
+minimum_release_age = "24h"
+
+[tools]
+dotnet = "8"
+"dotnet:fantomas" = "7.0.5"
+"dotnet:fsautocomplete" = "0.83.0"
+"dotnet:paket" = "10.3.1"
