@@ -23,18 +23,18 @@ module JapaneseMonth =
 
     let fromNumber (number: int) =
         match number with
-        | 1 -> Some(Mutsuki)
-        | 2 -> Some(Kisaragi)
-        | 3 -> Some(Yayoi)
-        | 4 -> Some(Uzuki)
-        | 5 -> Some(Satsuki)
-        | 6 -> Some(Minazuki)
-        | 7 -> Some(Fumizuki)
-        | 8 -> Some(Hazuki)
-        | 9 -> Some(Nagatsuki)
-        | 10 -> Some(Kannazuki)
-        | 11 -> Some(Shimotsuki)
-        | 12 -> Some(Shiwasu)
+        | 1 -> Some Mutsuki
+        | 2 -> Some Kisaragi
+        | 3 -> Some Yayoi
+        | 4 -> Some Uzuki
+        | 5 -> Some Satsuki
+        | 6 -> Some Minazuki
+        | 7 -> Some Fumizuki
+        | 8 -> Some Hazuki
+        | 9 -> Some Nagatsuki
+        | 10 -> Some Kannazuki
+        | 11 -> Some Shimotsuki
+        | 12 -> Some Shiwasu
         | _ -> None
 
     let fromName (name: string) =

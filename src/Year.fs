@@ -20,16 +20,16 @@ module HeavenlyStem =
 
     let fromNumber (number: int) =
         match number with
-        | 1 -> Some(Kinoe)
-        | 2 -> Some(Kinoto)
-        | 3 -> Some(Hinoe)
-        | 4 -> Some(Hinoto)
-        | 5 -> Some(Tsuchinoe)
-        | 6 -> Some(Tsuchinoto)
-        | 7 -> Some(Kanoe)
-        | 8 -> Some(Kanoto)
-        | 9 -> Some(Mizunoe)
-        | 10 -> Some(Mizunoto)
+        | 1 -> Some Kinoe
+        | 2 -> Some Kinoto
+        | 3 -> Some Hinoe
+        | 4 -> Some Hinoto
+        | 5 -> Some Tsuchinoe
+        | 6 -> Some Tsuchinoto
+        | 7 -> Some Kanoe
+        | 8 -> Some Kanoto
+        | 9 -> Some Mizunoe
+        | 10 -> Some Mizunoto
         | _ -> None
 
     let fromName (name: string) =
@@ -81,18 +81,18 @@ module JapaneseZodiac =
 
     let fromNumber (number: int) =
         match number with
-        | 1 -> Some(Ne)
-        | 2 -> Some(Ushi)
-        | 3 -> Some(Tora)
-        | 4 -> Some(Wu)
-        | 5 -> Some(Tatsu)
-        | 6 -> Some(Mi)
-        | 7 -> Some(Uma)
-        | 8 -> Some(Hitsuji)
-        | 9 -> Some(Saru)
-        | 10 -> Some(Tori)
-        | 11 -> Some(Inu)
-        | 12 -> Some(Yi)
+        | 1 -> Some Ne
+        | 2 -> Some Ushi
+        | 3 -> Some Tora
+        | 4 -> Some Wu
+        | 5 -> Some Tatsu
+        | 6 -> Some Mi
+        | 7 -> Some Uma
+        | 8 -> Some Hitsuji
+        | 9 -> Some Saru
+        | 10 -> Some Tori
+        | 11 -> Some Inu
+        | 12 -> Some Yi
         | _ -> None
 
     let fromName (name: string) =
@@ -253,66 +253,66 @@ module SexagenaryCycle =
 
     let fromNumber (number: int) =
         match number with
-        | 1 -> Some(KinoeNe)
-        | 2 -> Some(KinotoUshi)
-        | 3 -> Some(HinoeTora)
-        | 4 -> Some(HinotoWu)
-        | 5 -> Some(TsuchinoeTatsu)
-        | 6 -> Some(TsuchinotoMi)
-        | 7 -> Some(KanoeUma)
-        | 8 -> Some(KanotoHitsuji)
-        | 9 -> Some(MizunoeSaru)
-        | 10 -> Some(MizunotoTori)
-        | 11 -> Some(KinoeInu)
-        | 12 -> Some(KinotoYi)
-        | 13 -> Some(HinoeNe)
-        | 14 -> Some(HinotoUshi)
-        | 15 -> Some(TsuchinoeTora)
-        | 16 -> Some(TsuchinotoWu)
-        | 17 -> Some(KanoeTatsu)
-        | 18 -> Some(KanotoMi)
-        | 19 -> Some(MizunoeUma)
-        | 20 -> Some(MizunotoHitsuji)
-        | 21 -> Some(KinoeSaru)
-        | 22 -> Some(KinotoTori)
-        | 23 -> Some(HinoeInu)
-        | 24 -> Some(HinotoYi)
-        | 25 -> Some(TsuchinoeNe)
-        | 26 -> Some(TsuchinotoUshi)
-        | 27 -> Some(KanoeTora)
-        | 28 -> Some(KanotoWu)
-        | 29 -> Some(MizunoeTatsu)
-        | 30 -> Some(MizunotoMi)
-        | 31 -> Some(KinoeUma)
-        | 32 -> Some(KinotoHitsuji)
-        | 33 -> Some(HinoeSaru)
-        | 34 -> Some(HinotoTori)
-        | 35 -> Some(TsuchinoeInu)
-        | 36 -> Some(TsuchinotoYi)
-        | 37 -> Some(KanoeNe)
-        | 38 -> Some(KanotoUshi)
-        | 39 -> Some(MizunoeTora)
-        | 40 -> Some(MizunotoWu)
-        | 41 -> Some(KinoeTatsu)
-        | 42 -> Some(KinotoMi)
-        | 43 -> Some(HinoeUma)
-        | 44 -> Some(HinotoHitsuji)
-        | 45 -> Some(TsuchinoeSaru)
-        | 46 -> Some(TsuchinotoTori)
-        | 47 -> Some(KanoeInu)
-        | 48 -> Some(KanotoYi)
-        | 49 -> Some(MizunoeNe)
-        | 50 -> Some(MizunotoUshi)
-        | 51 -> Some(KinoeTora)
-        | 52 -> Some(KinotoWu)
-        | 53 -> Some(HinoeTatsu)
-        | 54 -> Some(HinotoMi)
-        | 55 -> Some(TsuchinoeUma)
-        | 56 -> Some(TsuchinotoHitsuji)
-        | 57 -> Some(KanoeSaru)
-        | 58 -> Some(KanotoTori)
-        | 59 -> Some(MizunoeInu)
-        | 60 -> Some(MizunotoYi)
+        | 1 -> Some KinoeNe
+        | 2 -> Some KinotoUshi
+        | 3 -> Some HinoeTora
+        | 4 -> Some HinotoWu
+        | 5 -> Some TsuchinoeTatsu
+        | 6 -> Some TsuchinotoMi
+        | 7 -> Some KanoeUma
+        | 8 -> Some KanotoHitsuji
+        | 9 -> Some MizunoeSaru
+        | 10 -> Some MizunotoTori
+        | 11 -> Some KinoeInu
+        | 12 -> Some KinotoYi
+        | 13 -> Some HinoeNe
+        | 14 -> Some HinotoUshi
+        | 15 -> Some TsuchinoeTora
+        | 16 -> Some TsuchinotoWu
+        | 17 -> Some KanoeTatsu
+        | 18 -> Some KanotoMi
+        | 19 -> Some MizunoeUma
+        | 20 -> Some MizunotoHitsuji
+        | 21 -> Some KinoeSaru
+        | 22 -> Some KinotoTori
+        | 23 -> Some HinoeInu
+        | 24 -> Some HinotoYi
+        | 25 -> Some TsuchinoeNe
+        | 26 -> Some TsuchinotoUshi
+        | 27 -> Some KanoeTora
+        | 28 -> Some KanotoWu
+        | 29 -> Some MizunoeTatsu
+        | 30 -> Some MizunotoMi
+        | 31 -> Some KinoeUma
+        | 32 -> Some KinotoHitsuji
+        | 33 -> Some HinoeSaru
+        | 34 -> Some HinotoTori
+        | 35 -> Some TsuchinoeInu
+        | 36 -> Some TsuchinotoYi
+        | 37 -> Some KanoeNe
+        | 38 -> Some KanotoUshi
+        | 39 -> Some MizunoeTora
+        | 40 -> Some MizunotoWu
+        | 41 -> Some KinoeTatsu
+        | 42 -> Some KinotoMi
+        | 43 -> Some HinoeUma
+        | 44 -> Some HinotoHitsuji
+        | 45 -> Some TsuchinoeSaru
+        | 46 -> Some TsuchinotoTori
+        | 47 -> Some KanoeInu
+        | 48 -> Some KanotoYi
+        | 49 -> Some MizunoeNe
+        | 50 -> Some MizunotoUshi
+        | 51 -> Some KinoeTora
+        | 52 -> Some KinotoWu
+        | 53 -> Some HinoeTatsu
+        | 54 -> Some HinotoMi
+        | 55 -> Some TsuchinoeUma
+        | 56 -> Some TsuchinotoHitsuji
+        | 57 -> Some KanoeSaru
+        | 58 -> Some KanotoTori
+        | 59 -> Some MizunoeInu
+        | 60 -> Some MizunotoYi
         | _ -> None
 
     let fromName (name: string) =
